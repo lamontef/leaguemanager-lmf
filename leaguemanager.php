@@ -98,7 +98,11 @@ class LeagueManagerLoader
 	}
 	function LeagueManagerLoader()
 	{
-		$this->__construct();
+	        if ( !current_user_can( 'manage_leagues' ) ) : 
+	             echo '<p style="text-align: center;">'.__("You do not have sufficient permissions to access this page.").'</p>';
+	        else :
+	            $this->__construct();
+	        endif;
 	}
 	
 		
@@ -528,8 +532,8 @@ class LeagueManagerLoader
 global $lmLoader;
 $lmLoader = new LeagueManagerLoader();
 // export. Security, check if current user is allowed to manage leagues
-if (current_user_can('manage_leagues')) {
-	if ( isset($_POST['leaguemanager_export']) )
-		$lmLoader->adminPanel->export((int)$_POST['league_id'], $_POST['mode']);
-}
+
+if ( isset($_POST['leaguemanager_export']) )
+	$lmLoader->adminPanel->export((int)$_POST['league_id'], $_POST['mode']);
+
 ?>
